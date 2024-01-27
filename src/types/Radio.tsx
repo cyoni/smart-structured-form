@@ -1,7 +1,7 @@
 interface IProps {
   question: Question;
   keyPrefix: any;
-  getKeyWithOrder: any;
+  name: string;
   register: any;
   handleRadioClick: any;
 }
@@ -9,14 +9,14 @@ interface IProps {
 function Radio({
   question,
   keyPrefix,
-  getKeyWithOrder,
+  name,
   register,
   handleRadioClick,
 }: IProps) {
   return (
     <div className="flex gap-4">
       {question.options.map((value, i) => {
-        const key = `${keyPrefix}.${getKeyWithOrder(question.name)}`;
+        const key = `${keyPrefix}.${name}`;
         const id = `field-${value}`;
         return (
           <span key={i} className="flex gap-1 items-center">
@@ -25,7 +25,7 @@ function Radio({
               id={id}
               value={value}
               {...register(key, { required: question.required })}
-              onClick={() => handleRadioClick(value, question.name)}
+              onClick={() => handleRadioClick(value, name)}
             />
             <label htmlFor={id}>{value}</label>
           </span>

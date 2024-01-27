@@ -1,2 +1,2 @@
-export const LANGUAGES = "10#LANGUAGES"
-export const COUNTRIES = "20#COUNTRIES"
+export const LANGUAGES = "1#LANGUAGES"
+export const COUNTRIES = "2#COUNTRIES"

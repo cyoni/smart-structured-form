@@ -13,22 +13,25 @@ function useQuestionGroup({
 
   const sectionFieldValues = watch(formKey) || {};
 
-  const getKeyWithOrder = (key: string) => {
-    const item = questions.find((x) => x.name === key);
-    return `${item.order}_${item.name}`;
-  };
-
   const handleRadioClick = (value: "yes" | "no", name: string) => {
     if (value === "no") {
-      questions
-        .filter((q: Question) => q.dependsOn?.includes(name))
-        .map((q: Question) => getKeyWithOrder(q.name))
-        .forEach((name: string) => resetField(`${formKey}.${name}`));
+      console.log(
+        "Object.values(questions)",
+        Object.values(questions),
+        "name",
+        name
+      );
+      Object.entries(questions).forEach(([key, q]) => {
+        if (q.dependsOn?.includes(name)) {
+          resetField(`${formKey}.${key}`);
+        }
+      });
     }
   };
 
   const renderQuestionContent = ({
     type,
+    name,
     question,
   }: {
     type: string;
@@ -40,7 +43,7 @@ function useQuestionGroup({
           <Radio
             question={question}
             keyPrefix={formKey}
-            getKeyWithOrder={getKeyWithOrder}
+            name={name}
             register={register}
             handleRadioClick={handleRadioClick}
           />
@@ -51,7 +54,7 @@ function useQuestionGroup({
           <Checkbox
             question={question}
             keyPrefix={formKey}
-            getKeyWithOrder={getKeyWithOrder}
+            name={name}
             register={register}
           />
         );
@@ -61,7 +64,7 @@ function useQuestionGroup({
           <Text
             question={question}
             keyPrefix={formKey}
-            getKeyWithOrder={getKeyWithOrder}
+            name={name}
             register={register}
           />
         );
@@ -72,7 +75,6 @@ function useQuestionGroup({
   };
 
   return {
-    getKeyWithOrder,
     handleRadioClick,
     renderQuestionContent,
     sectionFieldValues,

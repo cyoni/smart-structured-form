@@ -1,9 +1,9 @@
 import React from "react";
 
-function Text({ question, keyPrefix, getKeyWithOrder, register }) {
+function Text({ question, keyPrefix, name, register }) {
   return (
     <input
-      {...register(`${keyPrefix}.${getKeyWithOrder(question.name)}`, {
+      {...register(`${keyPrefix}.${name}`, {
         required: question.required,
       })}
     />

@@ -19,7 +19,6 @@ function QuestionGroup({
   errors,
 }: IProps) {
   const {
-    getKeyWithOrder,
     renderQuestionContent,
     questions,
     sectionFieldValues,
@@ -34,21 +33,20 @@ function QuestionGroup({
   return (
     <div className="border mt-4 p-4 rounded-md">
       {questions ? (
-        questions.map((question: Question, i: number) => {
+        Object.entries(questions).map(([name, question], i) => {
           if (
             !question.dependsOn ||
             question.dependsOn?.every(
-              (name: string) =>
-                sectionFieldValues[getKeyWithOrder(name)] === "yes"
+              (name: string) => sectionFieldValues[name] === "yes"
             )
           ) {
             const questionError = errors?.[formKey]
-              ? errors[formKey][getKeyWithOrder(question.name)]
+              ? errors[formKey][name]
               : null;
             return (
               <div key={i} className="[&:not(:first-child)]:mt-3">
                 <h3 className="font-bold text-lg">{question.question}</h3>
-                {renderQuestionContent({ type: question.type, question })}
+                {renderQuestionContent({ type: question.type, name, question })}
                 <div style={{ color: "red" }}>
                   {questionError
                     ? questionError.message || "This field is required."
