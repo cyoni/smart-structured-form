@@ -2,29 +2,38 @@ import Radio from "./types/Radio";
 import Checkbox from "./types/Checkbox";
 import Text from "./types/Text";
 
-function useQuestionGroup({ watch, questionsByGroup, resetField, formKey, register }) {
+function useQuestionGroup({
+  watch,
+  questionsByGroup,
+  resetField,
+  formKey,
+  register,
+}) {
   const questions = questionsByGroup ? questionsByGroup[formKey] : null;
 
   const sectionFieldValues = watch(formKey) || {};
-  console.log("formDirtyFields", sectionFieldValues);
 
   const getKeyWithOrder = (key: string) => {
     const item = questions.find((x) => x.name === key);
     return `${item.order}_${item.name}`;
   };
 
-  const handleRadioClick = (value, name) => {
+  const handleRadioClick = (value: "yes" | "no", name: string) => {
     if (value === "no") {
-      const dependsFeilds = questions
-        .filter((x) => x.dependsOn?.includes(name))
-        .map((x) => getKeyWithOrder(x.name))
-        .forEach((x) => resetField(`${formKey}.${x}`));
-
-      console.log("got dependsFeilds", dependsFeilds);
+      questions
+        .filter((q: Question) => q.dependsOn?.includes(name))
+        .map((q: Question) => getKeyWithOrder(q.name))
+        .forEach((name: string) => resetField(`${formKey}.${name}`));
     }
   };
 
-  const renderQuestionContent = ({ type, question }) => {
+  const renderQuestionContent = ({
+    type,
+    question,
+  }: {
+    type: string;
+    question: Question;
+  }) => {
     switch (type) {
       case "radio":
         return (

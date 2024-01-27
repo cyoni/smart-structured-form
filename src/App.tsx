@@ -39,7 +39,7 @@ function App() {
       style={{ display: "flex", flexDirection: "column" }}
     >
       <QuestionGroup {...defaultProps} formKey={LANGUAGES} />
-      {/* <QuestionGroup {...defaultProps} formKey={COUNTRIES} /> */}
+      <QuestionGroup {...defaultProps} formKey={COUNTRIES} />
 
       <button type="submit" className="mt-10">Send form</button>
     </form>
